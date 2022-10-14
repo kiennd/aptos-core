@@ -30,6 +30,8 @@ use async_trait::async_trait;
 use diesel::{Connection, ExpressionMethods, QueryDsl, RunQueryDsl};
 use field_count::FieldCount;
 use std::fmt::Debug;
+use aptos_logger::info;
+
 
 pub const NAME: &str = "token_processor";
 
@@ -160,7 +162,10 @@ fn update_token_ownership(
         txn.timestamp,
         chrono::Utc::now().naive_utc(),
     );
-    let new_ownership_amount = ownership_amount + amount_update;
+    let new_ownership_amount = ownership_amount + ensure_not_negative(amount_update.clone());
+    // let sss = serde_json::to_value(new_ownership_amount).unwrap();
+    // info!(new_ownership_amount=sss,"==============================");
+    
     execute_with_better_error(
         conn,
         diesel::insert_into(schema::ownerships::table)

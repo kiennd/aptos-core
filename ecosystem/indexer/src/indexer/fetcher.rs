@@ -14,9 +14,9 @@ use url::Url;
 // TODO: make this configurable
 const RETRY_TIME_MILLIS: u64 = 300;
 const MAX_RETRY_TIME_MILLIS: u64 = 120000;
-const TRANSACTION_FETCH_BATCH_SIZE: u16 = 500;
+const TRANSACTION_FETCH_BATCH_SIZE: u16 = 100;
 const TRANSACTION_CHANNEL_SIZE: usize = 35;
-const MAX_THREADS: usize = 10;
+const MAX_THREADS: usize = 20;
 static STARTING_RETRY_TIME: Duration = Duration::from_millis(RETRY_TIME_MILLIS);
 static MAX_RETRY_TIME: Duration = Duration::from_millis(MAX_RETRY_TIME_MILLIS);
 

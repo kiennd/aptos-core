@@ -42,6 +42,7 @@ impl Tailer {
         processor: Arc<dyn TransactionProcessor>,
     ) -> Result<Tailer, ParseError> {
         let url = Url::parse(node_url)?;
+        info!(url=node_url,"===================================================");
         let transaction_fetcher = TransactionFetcher::new(url, None);
         Ok(Self {
             transaction_fetcher: Arc::new(Mutex::new(transaction_fetcher)),
@@ -356,6 +357,8 @@ mod test {
             conn_pool.clone(),
             Arc::new(pg_transaction_processor),
         )?;
+
+        
         tailer.transaction_fetcher = Arc::new(Mutex::new(FakeFetcher::new(
             Url::parse("http://fake-url.aptos.dev")?,
             None,

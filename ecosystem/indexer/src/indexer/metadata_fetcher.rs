@@ -5,6 +5,7 @@ use crate::models::metadata::TokenMetaFromURI;
 use anyhow::Result;
 use reqwest_middleware::{ClientBuilder, ClientWithMiddleware};
 use reqwest_retry::{policies::ExponentialBackoff, RetryTransientMiddleware};
+use aptos_logger::info;
 
 pub enum UriType {
     ARWEAVE { uri: String },
@@ -37,6 +38,9 @@ impl MetaDataFetcher {
     }
 
     async fn read_http_uri(&self, uri: String) -> Result<serde_json::Value> {
+        info!("--------------------------------------");
+        info!(substream_uri = &uri);
+
         let resp = self
             .restclient
             .get(uri)
